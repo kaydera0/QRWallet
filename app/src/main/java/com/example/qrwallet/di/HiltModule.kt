@@ -1,7 +1,13 @@
 package com.example.qrwallet.di
 
+import android.content.Context
+import androidx.room.Room
+import com.example.qrwallet.adapters.PageAdapter
+import com.example.qrwallet.dataBase.room.RoomDB
 import dagger.Module
+import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -9,4 +15,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class HiltModule {
 
+    @Provides
+    @Singleton
+    fun provideRoomDB(@ApplicationContext context:Context) : RoomDB{
+        return Room.databaseBuilder(context,RoomDB::class.java,RoomDB.DB_NAME).build()
+    }
 }
