@@ -9,16 +9,19 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.activityViewModels
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
 import com.example.qrwallet.dataClasses.UserCardData
 import com.example.qrwallet.databinding.NewCaontactDialogLayoutBinding
+import com.example.qrwallet.viewModels.MainViewModel
 
 class NewContactDialog(val userCardData: UserCardData):DialogFragment() {
 
     private var _binding: NewCaontactDialogLayoutBinding? = null
     private val binding get() = _binding!!
     private val userInfo = ArrayList<String>()
+    val vm:MainViewModel by activityViewModels()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -39,8 +42,10 @@ class NewContactDialog(val userCardData: UserCardData):DialogFragment() {
             dismiss()
         }
         binding.saveToFav.setOnClickListener {
+            vm.addUserCard(userCardData)
             dismiss()
         }
+
 
         val builder = AlertDialog.Builder(requireActivity())
         builder.setView(binding.root)

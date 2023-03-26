@@ -9,11 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
-import com.example.qrwallet.R
 import com.example.qrwallet.adapters.ContactsAdapter
-import com.example.qrwallet.dataClasses.ContactDataClass
+import com.example.qrwallet.dataClasses.PhoneContactDataClass
 import com.example.qrwallet.databinding.FragmentContactsBinding
-import com.example.qrwallet.databinding.FragmentProfileBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +21,7 @@ class ContactsFragment : Fragment() {
     private val binding get() = _binding!!
     private var listView: ListView? = null
     private var customAdapter: ContactsAdapter? = null
-    private var contactModelArrayList: ArrayList<ContactDataClass>? = null
+    private var contactModelArrayList: ArrayList<PhoneContactDataClass>? = null
 
     @SuppressLint("Range")
     override fun onCreateView(
@@ -40,7 +38,7 @@ class ContactsFragment : Fragment() {
             val name = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
             val phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
-            val contactModel = ContactDataClass()
+            val contactModel = PhoneContactDataClass()
             contactModel.setNames(name)
             contactModel.setNumbers(phoneNumber)
             contactModelArrayList!!.add(contactModel)

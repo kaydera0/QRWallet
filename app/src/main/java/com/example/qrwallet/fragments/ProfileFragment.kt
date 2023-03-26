@@ -32,33 +32,43 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-//        findNavController().navigate(R.id.action_profileFragment_to_mainFragment)
+        val bundle = arguments?.getString("return")
 
         vm.userData.observe(viewLifecycleOwner) {
-            if (it != null) {
+            if (it != null && bundle != "return") {
                 findNavController().navigate(R.id.action_profileFragment_to_mainFragment)
             }
         }
 
         binding.doneCardBtn.setOnClickListener {
-
-            val currentData = RoomUser(
-                id = 0,
-                name = binding.cardName.text.toString(),
-                phone = binding.phoneCard.text.toString(),
-                email = binding.emailCard.text.toString(),
-                address = binding.addressCard.text.toString(),
-                post = binding.postCodeCard.text.toString(),
-                facebook = binding.facebookCard.text.toString(),
-                limkedIn = binding.linkedinCard.text.toString()
-            )
-            CoroutineScope(Dispatchers.IO).launch {
-                roomDB.roomDao()?.insertUser(
-                    currentData
+            if (binding.cardName.text.isEmpty() && binding.phoneCard.text.isEmpty()) {
+                binding.cardName.setHintTextColor(resources.getColor(R.color.red))
+                binding.cardName.hint = resources.getText(R.string.necessary_field)
+                binding.phoneCard.setHintTextColor(resources.getColor(R.color.red))
+                binding.phoneCard.hint = resources.getText(R.string.necessary_field)
+            } else {
+                val currentData = RoomUser(
+                    id = 0,
+                    name = binding.cardName.text.toString(),
+                    phone = binding.phoneCard.text.toString(),
+                    email = binding.emailCard.text.toString(),
+                    address = binding.addressCard.text.toString(),
+                    post = binding.postCodeCard.text.toString(),
+                    facebook = binding.facebookCard.text.toString(),
+                    linkedIn = binding.linkedinCard.text.toString()
                 )
-                vm.updateUserdata()
+                CoroutineScope(Dispatchers.IO).launch {
+                    if (bundle != "return") {
+                        roomDB.userDao()?.insertUser(
+                            currentData
+                        )
+                    } else {
+                        roomDB.userDao()?.updateUser(currentData)
+                    }
+                    vm.updateUserdata()
+                }
+                findNavController().navigate(R.id.action_profileFragment_to_mainFragment)
             }
-            findNavController().navigate(R.id.action_profileFragment_to_mainFragment)
         }
         return binding.root
     }

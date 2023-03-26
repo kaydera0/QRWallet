@@ -1,7 +1,6 @@
 package com.example.qrwallet.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,13 +11,14 @@ import com.example.qrwallet.databinding.FragmentMainBinding
 import com.example.qrwallet.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private val vm:MainViewModel by activityViewModels()
-    private val fragments = mutableListOf(CameraFragment(),UserFragment(),ContactsFragment())
+    private val fragments = mutableListOf(CameraFragment(),UserAndFavFragment(),ContactsFragment())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -1,6 +1,6 @@
 package com.example.qrwallet.dataClasses
 
-class ContactDataClass {
+class PhoneContactDataClass {
 
     var name: String? = null
     var number: String? = null

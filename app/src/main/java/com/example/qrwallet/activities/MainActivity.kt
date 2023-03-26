@@ -18,8 +18,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        vm
-        Log.d("MY_TAG", "main activity init")
         setContentView(binding.root)
     }
 }

@@ -1,30 +1,74 @@
 package com.example.qrwallet.viewModels
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.qrwallet.dataBase.room.RoomContact
 import com.example.qrwallet.dataBase.room.RoomDB
+import com.example.qrwallet.dataBase.room.toDataClass
 import com.example.qrwallet.dataClasses.UserCardData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(val roomDB: RoomDB):ViewModel() {
+class MainViewModel @Inject constructor(val roomDB: RoomDB,
+@ApplicationContext context: Context):ViewModel() {
     val userData = MutableLiveData<UserCardData>()
+    val favUsersArr = MutableLiveData<ArrayList<UserCardData>>()
+    val networkStatus = MutableLiveData(false)
+    private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
     init {
-        Log.d("MY_TAG", "vm init")
         viewModelScope.launch {
-            userData.postValue(roomDB.roomDao()?.getUserData()?.roomClassToDataClass())
+            userData.postValue(roomDB.userDao()?.getUserData()?.roomClassToDataClass())
+            favUsersArr.postValue(roomDB.contactsDao()?.getContactsList()?.toDataClass())
         }
-//        Log.d("MY_TAG", userData.value?.name!!)
+        val networkStatusCallback = object :ConnectivityManager.NetworkCallback(){
+            override fun onAvailable(network: Network) = networkStatus.postValue(true)
+            override fun onUnavailable() = networkStatus.postValue(false)
+            override fun onLost(network: Network) = networkStatus.postValue(false)
+        }
+        val request = NetworkRequest.Builder().addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build()
+        connectivityManager.registerNetworkCallback(request,networkStatusCallback)
     }
     fun updateUserdata(){
         viewModelScope.launch {
-            userData.postValue(roomDB.roomDao()?.getUserData()?.roomClassToDataClass())
+            userData.postValue(roomDB.userDao()?.getUserData()?.roomClassToDataClass())
         }
+    }
+    fun addUserCard(userCardData: UserCardData){
+        var arrValue = ArrayList<UserCardData>()
+        if (favUsersArr.value!=null){
+        arrValue = favUsersArr.value!!}
+        arrValue.add(userCardData)
+        favUsersArr.value = arrValue
+        viewModelScope.launch {
+            roomDB.contactsDao()?.insertContact(userCardData.toRoomContact())
+        }
+    }
+    fun removeCardUser(userCardData: UserCardData){
+        Log.d("MY_TAG","start remove")
+        var arrValue = ArrayList<UserCardData>()
+        if (favUsersArr.value!=null){
+            arrValue = favUsersArr.value!!}
+        arrValue.remove(userCardData)
+        favUsersArr.value = arrValue
+        viewModelScope.launch {
+//            roomDB.contactsDao()?.deleteContact(RoomContact(2,"","","","","","","!"))
+            roomDB.contactsDao()?.deleteContact(userCardData.toRoomContact())
+            roomDB.contactsDao()?.deleteByUserNameAndPhone(userCardData.name,userCardData.phone)
+            Log.d("MY_TAG","finish remove")
+
+        }
+
     }
 
 

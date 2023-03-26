@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
 import com.example.qrwallet.R
-import com.example.qrwallet.dataClasses.ContactDataClass
+import com.example.qrwallet.dataClasses.PhoneContactDataClass
 
 
-class ContactsAdapter(private val context: Context, private val contactModelArrayList: ArrayList<ContactDataClass>) : BaseAdapter() {
+class ContactsAdapter(private val context: Context, private val contactModelArrayList: ArrayList<PhoneContactDataClass>) : BaseAdapter() {
 
     override fun getViewTypeCount(): Int {
         return count

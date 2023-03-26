@@ -22,6 +22,9 @@
         <action
             android:id="@+id/action_mainFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/cameraFragment"
@@ -37,7 +40,11 @@
     </fragment>
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.example.qrwallet.fragments.UserFragment"
+        android:name="com.example.qrwallet.fragments.UserAndFavFragment"
         android:label="fragment_user"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user" >
+        <action
+            android:id="@+id/action_userFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
+    </fragment>
 </navigation>

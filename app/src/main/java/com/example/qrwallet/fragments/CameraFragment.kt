@@ -7,27 +7,29 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.CodeScannerView
 import com.budiyev.android.codescanner.DecodeCallback
 import com.example.qrwallet.R
+import com.example.qrwallet.dataBase.room.RoomDB
 import com.example.qrwallet.databinding.FragmentCameraBinding
 import com.example.qrwallet.dialogs.NewContactDialog
-import com.example.qrwallet.dialogs.QRCodeDialog
-import com.example.qrwallet.repositories.QRdecoder
+import com.example.qrwallet.repositories.QRDecoder
 import com.example.qrwallet.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class CameraFragment : Fragment() {
+class CameraFragment  : Fragment() {
 
+    @Inject
+    lateinit var roomDB: RoomDB
     private var _binding: FragmentCameraBinding? = null
     private val binding get() = _binding!!
     private lateinit var codeScanner: CodeScanner
     private val vm: MainViewModel by activityViewModels()
     private val newContactTag = "NewContactDialog_TAG"
-    val qRdecoder = QRdecoder()
+    val qRdecoder = QRDecoder()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,7 +55,6 @@ class CameraFragment : Fragment() {
                 try {
                     val result = qRdecoder.codeToDataClass(it.text)
                     NewContactDialog(result).show(childFragmentManager,newContactTag)
-                    findNavController().navigate(R.id.action_cameraFragment_to_userFragment)
                 } catch (e: java.lang.Exception) {
                     Toast.makeText(activity, R.string.scan_error, Toast.LENGTH_LONG).show()
                 }

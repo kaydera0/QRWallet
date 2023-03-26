@@ -13,4 +13,5 @@
     <string name="save">SAVE</string>
     <string name="save_to_fav">SAVE TO FAV</string>
     <string name="scan_error">Something went wrong, please ty again</string>
+    <string name="necessary_field">Necessary field</string>
 </resources>

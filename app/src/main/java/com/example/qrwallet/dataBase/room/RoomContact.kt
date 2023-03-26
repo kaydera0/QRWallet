@@ -1,25 +1,21 @@
 package com.example.qrwallet.dataBase.room
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.qrwallet.dataClasses.UserCardData
 
-@Entity(tableName = "userData")
-data class RoomUser(
-    @PrimaryKey(autoGenerate = false) val id: Long,
+@Entity(tableName = "contactData")
+data class RoomContact(
+    @PrimaryKey(autoGenerate = true) val id: Long,
     val name: String,
     val phone: String,
     val email: String,
     val address: String,
     val post: String,
     val facebook: String,
-    val linkedIn: String,
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    val qrcode:ByteArray? = null
+    val linkedIn: String
 ){
-
-    fun roomClassToDataClass():UserCardData{
+    fun roomClassToDataClass(): UserCardData {
         return UserCardData(
             name = this.name,
             phone = this.phone,
@@ -27,8 +23,6 @@ data class RoomUser(
             address = this.address,
             postCode = this.post,
             facebook = this.facebook,
-            linkedIn = this.linkedIn,
-            qrCode = this.qrcode)
+            linkedIn = this.linkedIn)
     }
-
 }

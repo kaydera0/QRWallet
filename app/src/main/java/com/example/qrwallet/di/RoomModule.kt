@@ -2,7 +2,6 @@ package com.example.qrwallet.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.qrwallet.adapters.PageAdapter
 import com.example.qrwallet.dataBase.room.RoomDB
 import dagger.Module
 import dagger.Provides
@@ -13,7 +12,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class HiltModule {
+class RoomModule {
 
     @Provides
     @Singleton

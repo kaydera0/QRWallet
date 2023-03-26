@@ -6,7 +6,7 @@ import androidx.room.Query
 import androidx.room.Update
 
 @Dao
-interface RoomDao {
+interface RoomUserDao {
 
     @Insert
     suspend fun insertUser(roomUser: RoomUser)
@@ -19,4 +19,6 @@ interface RoomDao {
 
     @Query("DELETE FROM userData")
     suspend fun clearTable()
+
 }
+
