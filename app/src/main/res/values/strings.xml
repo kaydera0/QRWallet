@@ -14,4 +14,10 @@
     <string name="save_to_fav">SAVE TO FAV</string>
     <string name="scan_error">Something went wrong, please ty again</string>
     <string name="necessary_field">Necessary field</string>
+    <string name="upload_manually">Upload</string>
+    <string name="search">Search</string>
+    <string name="language">Language</string>
+    <string name="english" translatable="false">English</string>
+    <string name="russian" translatable="false">Русский</string>
+    <string name="ukrainian" translatable="false">Українська</string>
 </resources>

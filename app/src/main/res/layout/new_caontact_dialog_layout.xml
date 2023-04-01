@@ -94,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="150dp"
-        android:background="@drawable/round_coroner_recktangle"
+        android:background="@drawable/round_coroner_rectangle"
         android:backgroundTint="@color/red"
         android:text="@string/decline"
         app:layout_constraintStart_toStartOf="@+id/base_cardview"
@@ -106,7 +106,7 @@
         android:layout_height="wrap_content"
 
         android:layout_marginTop="88dp"
-        android:background="@drawable/round_coroner_recktangle"
+        android:background="@drawable/round_coroner_rectangle"
         android:backgroundTint="@color/orange"
         android:text="@string/save_to_fav"
         app:layout_constraintEnd_toEndOf="@+id/base_cardview"
@@ -120,7 +120,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
 
-        android:background="@drawable/round_coroner_recktangle"
+        android:background="@drawable/round_coroner_rectangle"
         android:backgroundTint="@color/green"
         android:text="@string/save"
         app:layout_constraintEnd_toEndOf="@+id/base_cardview"

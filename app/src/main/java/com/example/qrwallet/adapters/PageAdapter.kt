@@ -16,11 +16,6 @@ class PageAdapter(
     lifecycle: Lifecycle
 ) : FragmentStateAdapter(fragmentActivity, lifecycle) {
 
-//    @Inject private lateinit var mainFragment: MainFragment
-//    @Inject private lateinit var cameraFragment: CameraFragment
-//    @Inject private lateinit var contactsFragment: ContactsFragment
-//
-//    private val fragments = listOf(mainFragment,cameraFragment,contactsFragment)
     override fun getItemCount(): Int {
         return fragments.size
     }

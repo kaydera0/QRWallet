@@ -3,9 +3,12 @@ package com.example.qrwallet.dialogs
 import android.R
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.provider.ContactsContract
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.fragment.app.DialogFragment
@@ -39,10 +42,17 @@ class NewContactDialog(val userCardData: UserCardData):DialogFragment() {
             dismiss()
         }
         binding.save.setOnClickListener {
+            val intent = Intent(ContactsContract.Intents.Insert.ACTION)
+            intent.setType(ContactsContract.RawContacts.CONTENT_TYPE)
+            intent.putExtra(ContactsContract.Intents.Insert.NAME,userCardData.name)
+            intent.putExtra(ContactsContract.Intents.Insert.PHONE,userCardData.phone)
+            intent.putExtra(ContactsContract.Intents.Insert.EMAIL,userCardData.email)
+            intent.putExtra(ContactsContract.Intents.Insert.POSTAL,userCardData.address + " " + userCardData.postCode)
+            startActivity(intent)
             dismiss()
         }
         binding.saveToFav.setOnClickListener {
-            vm.addUserCard(userCardData)
+            vm.addUserCardToFav(userCardData)
             dismiss()
         }
 

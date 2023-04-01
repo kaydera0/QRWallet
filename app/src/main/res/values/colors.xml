@@ -13,4 +13,9 @@
     <color name="red">#B6291E</color>
     <color name="green">#3D9F41</color>
     <color name="orange">#FF9800</color>
+    <color name="blue">#5373C5</color>
+    <color name="dark_blue">#2C52B6</color>
+    <color name="ultra_dark_blue">#121BB8</color>
+    <color name="transparent">#00B4B5B6</color>
+    <color name="grey">#4F4F50</color>
 </resources>

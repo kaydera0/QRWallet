@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QRWallet</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name">Имя</string>
+    <string name="phone">Тел. номер</string>
+    <string name="email">Емейл</string>
+    <string name="facebook">Фейсбук</string>
+    <string name="linkedIn">ЛинкедИн</string>
+    <string name="address">Адрес</string>
+    <string name="postCode">Почт. индекс</string>
+    <string name="done">Готово</string>
+    <string name="decline">Отменить</string>
+    <string name="save">Сохранить в контакты</string>
+    <string name="save_to_fav">Сохранить в избранное</string>
+    <string name="scan_error">Что-то пошло не так, попробуйте снова</string>
+    <string name="necessary_field">Обязательно для заполнения</string>
+    <string name="upload_manually">Загрузить с памяти</string>
+    <string name="search">Поиск</string>
+    <string name="language">Язык</string>
+</resources>

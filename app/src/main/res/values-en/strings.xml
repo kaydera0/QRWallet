@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QRWallet</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone number</string>
+    <string name="email">Email</string>
+    <string name="facebook">Facebook</string>
+    <string name="linkedIn">LinkedIn</string>
+    <string name="address">Address</string>
+    <string name="postCode">Post code</string>
+    <string name="done">Done</string>
+    <string name="decline">DECLINE</string>
+    <string name="save">SAVE</string>
+    <string name="save_to_fav">SAVE TO FAV</string>
+    <string name="scan_error">Something went wrong, please ty again</string>
+    <string name="necessary_field">Necessary field</string>
+    <string name="upload_manually">Upload</string>
+    <string name="search">Search</string>
+    <string name="language">Language</string>
+</resources>

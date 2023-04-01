@@ -9,9 +9,9 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.qrwallet.dataBase.room.RoomContact
 import com.example.qrwallet.dataBase.room.RoomDB
 import com.example.qrwallet.dataBase.room.toDataClass
+import com.example.qrwallet.dataClasses.PhoneContactDataClass
 import com.example.qrwallet.dataClasses.UserCardData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -23,6 +23,7 @@ class MainViewModel @Inject constructor(val roomDB: RoomDB,
 @ApplicationContext context: Context):ViewModel() {
     val userData = MutableLiveData<UserCardData>()
     val favUsersArr = MutableLiveData<ArrayList<UserCardData>>()
+    val addedContactsUserArr = MutableLiveData<ArrayList<PhoneContactDataClass>>()
     val networkStatus = MutableLiveData(false)
     private val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -44,7 +45,7 @@ class MainViewModel @Inject constructor(val roomDB: RoomDB,
             userData.postValue(roomDB.userDao()?.getUserData()?.roomClassToDataClass())
         }
     }
-    fun addUserCard(userCardData: UserCardData){
+    fun addUserCardToFav(userCardData: UserCardData){
         var arrValue = ArrayList<UserCardData>()
         if (favUsersArr.value!=null){
         arrValue = favUsersArr.value!!}
@@ -55,21 +56,13 @@ class MainViewModel @Inject constructor(val roomDB: RoomDB,
         }
     }
     fun removeCardUser(userCardData: UserCardData){
-        Log.d("MY_TAG","start remove")
         var arrValue = ArrayList<UserCardData>()
         if (favUsersArr.value!=null){
             arrValue = favUsersArr.value!!}
         arrValue.remove(userCardData)
         favUsersArr.value = arrValue
         viewModelScope.launch {
-//            roomDB.contactsDao()?.deleteContact(RoomContact(2,"","","","","","","!"))
-            roomDB.contactsDao()?.deleteContact(userCardData.toRoomContact())
             roomDB.contactsDao()?.deleteByUserNameAndPhone(userCardData.name,userCardData.phone)
-            Log.d("MY_TAG","finish remove")
-
         }
-
     }
-
-
 }

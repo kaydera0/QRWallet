@@ -1,10 +1,15 @@
 package com.example.qrwallet.fragments
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.budiyev.android.codescanner.CodeScanner
@@ -16,6 +21,11 @@ import com.example.qrwallet.databinding.FragmentCameraBinding
 import com.example.qrwallet.dialogs.NewContactDialog
 import com.example.qrwallet.repositories.QRDecoder
 import com.example.qrwallet.viewModels.MainViewModel
+import com.google.mlkit.vision.barcode.BarcodeScanner
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.barcode.common.Barcode
+import com.google.mlkit.vision.common.InputImage
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -30,6 +40,8 @@ class CameraFragment  : Fragment() {
     private val vm: MainViewModel by activityViewModels()
     private val newContactTag = "NewContactDialog_TAG"
     val qRdecoder = QRDecoder()
+    private var imageUri: Uri? = null
+    private var image = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +49,9 @@ class CameraFragment  : Fragment() {
     ): View? {
         _binding = FragmentCameraBinding.inflate(layoutInflater)
 
+        binding.upload.setOnClickListener {
+        pickImageGallery()
+        }
 
         return _binding!!.root
     }
@@ -73,5 +88,43 @@ class CameraFragment  : Fragment() {
     override fun onPause() {
         codeScanner.releaseResources()
         super.onPause()
+    }
+    private fun pickImageGallery(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        galleryActivityResultLauncher.launch(intent)
+    }
+
+    private val galleryActivityResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ){result->
+        Log.d("MY_TAG"," in galleryActivityResultLauncher")
+        if (result.resultCode == Activity.RESULT_OK){
+            val data = result.data
+            Log.d("MY_TAG"," in galleryActivityResultLauncher block if")
+            imageUri = data?.data
+            var image = InputImage.fromFilePath(requireContext(), imageUri!!)
+            testScan(image)
+        }
+        else{
+            // TODO:
+        }
+
+    }
+    fun testScan(image:InputImage){
+        val barcodeScannerOptions =BarcodeScannerOptions.Builder().setBarcodeFormats(Barcode.FORMAT_QR_CODE).build()
+        val scanner = BarcodeScanning.getClient(barcodeScannerOptions)
+        val result = scanner.process(image)
+            .addOnSuccessListener { barcodes ->
+                for (barcode in barcodes) {
+                    val rawValue = barcode.rawValue
+                    Log.d("RESULT_TAG", ">>>>>${rawValue.toString()} <<<<<<<<<<")
+                    val result = qRdecoder.codeToDataClass(rawValue.toString())
+                    NewContactDialog(result).show(childFragmentManager,newContactTag)
+                }
+            }
+            .addOnFailureListener {
+                // TODO:
+            }
     }
 }

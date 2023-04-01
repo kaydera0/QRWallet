@@ -1,15 +1,15 @@
 package com.example.qrwallet.dataBase.room
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface RoomContactsDao {
 
     @Insert
     suspend fun insertContact(roomContact: RoomContact)
+
+    @Update
+    suspend fun updateContact(roomContact: RoomContact)
 
     @Query("SELECT * FROM contactData")
     suspend fun getContactsList():List<RoomContact>

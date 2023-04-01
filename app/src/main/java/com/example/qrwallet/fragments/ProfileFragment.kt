@@ -1,9 +1,14 @@
 package com.example.qrwallet.fragments
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -33,13 +38,13 @@ class ProfileFragment : Fragment() {
     ): View? {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val bundle = arguments?.getString("return")
-
+        askPermission()
         vm.userData.observe(viewLifecycleOwner) {
             if (it != null && bundle != "return") {
                 findNavController().navigate(R.id.action_profileFragment_to_mainFragment)
             }
         }
-
+        feelFields()
         binding.doneCardBtn.setOnClickListener {
             if (binding.cardName.text.isEmpty() && binding.phoneCard.text.isEmpty()) {
                 binding.cardName.setHintTextColor(resources.getColor(R.color.red))
@@ -72,9 +77,22 @@ class ProfileFragment : Fragment() {
         }
         return binding.root
     }
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+    private fun askPermission(){
+        ActivityCompat.requestPermissions(requireActivity(),
+            arrayOf(Manifest.permission.CAMERA,Manifest.permission.READ_CONTACTS,Manifest.permission.READ_EXTERNAL_STORAGE),
+            1)
+    }
+    private fun feelFields(){
+        binding.cardName.setText(vm.userData.value?.name)
+        binding.phoneCard.setText(vm.userData.value?.phone)
+        binding.emailCard.setText(vm.userData.value?.email)
+        binding.addressCard.setText(vm.userData.value?.address)
+        binding.postCodeCard.setText(vm.userData.value?.postCode)
+        binding.facebookCard.setText(vm.userData.value?.facebook)
+        binding.linkedinCard.setText(vm.userData.value?.linkedIn)
     }
 }
